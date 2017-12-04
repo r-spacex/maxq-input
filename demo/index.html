@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>maxq-input demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../maxq-input.html">
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic maxq-input demo</h3>
+      <demo-snippet>
+        <template>
+          <maxq-input placeholder="Placeholder..."></maxq-input>
+        </template>
+      </demo-snippet>
+
+      <h3>Number type</h3>
+      <demo-snippet>
+        <template>
+          <maxq-input placeholder="Age" type="number"></maxq-input>
+        </template>
+      </demo-snippet>
+
+      <h3>Match condition</h3>
+      <demo-snippet>
+        <template>
+          <maxq-input placeholder="Username" match="/^[a-z0-9_-]{6,18}$/"
+            error-message="Your username must be at least 6 characters, no longer than 18, and can only contain a-z, 0-9, - and _"></maxq-input>
+        </template>
+      </demo-snippet>
+
+      <h3>In a group</h3>
+      <demo-snippet>
+        <template>
+          <style>
+            .group .group-element {
+              width: 100px;
+            }
+          </style>
+          <div class="group">
+            <maxq-input placeholder="1 (800)" class="group-element"></maxq-input>
+            <maxq-input placeholder="229" class="group-element"></maxq-input>
+            <maxq-input placeholder="4822" class="group-element"></maxq-input>
+          </div>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>

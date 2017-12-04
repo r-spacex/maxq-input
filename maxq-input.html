@@ -1,0 +1,158 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="maxq-input">
+  <template>
+    <style>
+      :host {
+        display: inline-flex;
+        align-items: center;
+        height: 32px;
+        border-radius: 32px;
+        background-color: #EBEBEB;
+        font-family: inherit;
+        padding: 0 16px;
+        box-sizing: border-box;
+        transition: border 0.2s ease, background-color 0.2s ease;
+      }
+
+      input {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        appearance: none;
+        border: none;
+        background: none;
+        font-family: inherit;
+        font-size: 16px;
+        padding: 0;
+        margin: 0;
+        outline: none;
+      }
+      :host(.group-element) {
+        border-radius: 0;
+        border-right: 1px solid #ddd;
+        margin-right: -4px;
+      }
+      :host(:not([valid])) {
+        background-color: #ff9999;
+      }
+      :host(.group-element:first-child) {
+        border-top-left-radius: 32px;
+        border-bottom-left-radius: 32px;
+      }
+
+      :host([focused]) {
+        border: 1px solid #ddd;
+        background-color: white;
+        outline: none;
+      }
+
+      :host(.group-element:last-child) {
+        border-top-right-radius: 32px;
+        border-bottom-right-radius: 32px;
+        margin-right: 0;
+      }
+
+      :host(.group-element:last-child:not([focused])) {
+        border-right: none;
+      }
+
+      @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
+        :host([focused]) {
+          border-width: 0.75px;
+        }
+
+      }
+
+      @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        :host([focused]) {
+          border-width: 0.5px;
+        }
+      }
+    </style>
+    <input type="[[type]]" placeholder="[[placeholder]]" value="{{value::input}}" on-input="handleInput">
+  </template>
+
+  <script>
+    /**
+     * `maxq-input`
+     * An input element following the maxq design pattern
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class MaxqInput extends Polymer.Element {
+      static get is() { return 'maxq-input'; }
+      static get properties() {
+        return {
+          placeholder: {
+            type: String,
+            reflectToAttribute: true,
+            value: ''
+          },
+          value: {
+            type: String,
+            reflectToAttribute: true,
+            value: ''
+          },
+          type: {
+            type: String,
+            reflectToAttribute: true,
+            value: 'text'
+          },
+          focused: {
+            type: Boolean,
+            reflectToAttribute: true,
+            value: false
+          },
+          min: {
+            type: Number,
+            reflectToAttribute: true
+          },
+          max: {
+            type: Boolean,
+            reflectToAttribute: true
+          },
+          match: {
+            type: String,
+            reflectToAttribute: true,
+            value: null
+          },
+          errorMesage: {
+            type: String,
+            reflectToAttribute: true,
+            value: 'Sorry, the input is invalid'
+          },
+          valid: {
+            type: Boolean,
+            reflectToAttribute: true,
+            value: true
+          }
+        };
+      }
+
+      ready() {
+        super.ready();
+        let input = this.shadowRoot.querySelector('input');
+        input.addEventListener('blur', () => {
+          this.focused = false;
+        });
+        input.addEventListener('focus', () => {
+          this.focused = true;
+        });
+      }
+
+      handleInput(e) {
+        if (this.match) {
+          console.log(this.match);
+          let regex = new RegExp(this.match);
+          this.valid = regex.test(this.value);
+        }
+        this.dispatchEvent(new CustomEvent('input', {value: this.value, valid: this.valid}));
+      }
+    }
+
+    window.customElements.define(MaxqInput.is, MaxqInput);
+  </script>
+</dom-module>
